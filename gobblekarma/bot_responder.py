@@ -1,6 +1,6 @@
 from gobblegobble.bot import gobble_listen
 from gobblekarma.models import KarmaFor, Karma
-import re
+
 
 @gobble_listen("(.*)\+\+ for (.*)")
 def upvote_for(message, recipient, karma_for):
@@ -34,7 +34,14 @@ def downvote(message, recipient):
 
 @gobble_listen("karma")
 def get_top_ten(message):
-    pass
+    resp  = ""
+    tops = []
+    i = 1
+    for karma in Karma.objects.all().order_by('-amount'):
+        tops.append("%s. %s\n" % (i, str(karma)))
+        i = i+1
+    resp = "%s%s" % (resp, "".join(tops))
+    return resp
 
 
 @gobble_listen("karma (.*)")

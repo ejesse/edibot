@@ -2,7 +2,7 @@ from django.test import TestCase
 
 from gobblegobble.bot import Message
 from gobblekarma.bot_responder import upvote, upvote_for, downvote, downvote_for, \
-    get_karma_for
+    get_karma_for, get_top_ten
 from gobblekarma.models import Karma, KarmaFor
 
 
@@ -157,9 +157,22 @@ class TestResponders(TestCase):
         self.assertEqual(karma.amount,-1)
 
     def test_get_top_ten(self):
-        pass
+
+        message = Message()
+        message.text = "karma"
+
+        for i in range(0,20):
+            Karma.increment("toptentest1")
+        for i in range(0,15):
+            Karma.increment("toptentest2")
+        for i in range(0,10):
+            Karma.increment("toptentest3")
+
+        top_ten = get_top_ten(message)
+        self.assertTrue(top_ten.startswith("1. toptentest1 has 20 points\n2. toptentest2 has 15 points\n3. toptentest3 has 10 points\n"))
 
     def test_get_karma_for(self):
+
         KarmaFor.increment("testkarmaforintrospec1", "stuff1")
         KarmaFor.increment("testkarmaforintrospec1", "stuff1")
         KarmaFor.increment("testkarmaforintrospec1", "stuff1")
