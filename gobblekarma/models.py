@@ -12,6 +12,7 @@ class Karma(models.Model):
 
     @staticmethod
     def find_or_create_by_recipient(recipient):
+        recipient = recipient.lower()
         try:
             karma = Karma.objects.get(recipient=recipient)
         except Karma.DoesNotExist:
@@ -21,6 +22,7 @@ class Karma(models.Model):
 
     @staticmethod
     def increment(recipient):
+        recipient = recipient.lower()
         karma = Karma.find_or_create_by_recipient(recipient)
         karma.amount = karma.amount+1
         karma.save()
@@ -28,6 +30,7 @@ class Karma(models.Model):
 
     @staticmethod
     def decrement(recipient):
+        recipient = recipient.lower()
         karma = Karma.find_or_create_by_recipient(recipient)
         karma.amount = karma.amount-1
         karma.save()
@@ -63,6 +66,7 @@ class KarmaFor(models.Model):
 
     @staticmethod
     def find_or_create_by_recipient_and_for(recipient, karma_for):
+        recipient = recipient.lower()
         karma = Karma.find_or_create_by_recipient(recipient)
         try:
             karma_for = KarmaFor.objects.get(karma=karma, karma_for=karma_for)
@@ -73,6 +77,7 @@ class KarmaFor(models.Model):
 
     @staticmethod
     def increment(recipient, karma_for):
+        recipient = recipient.lower()
         Karma.increment(recipient)
         karma_for = KarmaFor.find_or_create_by_recipient_and_for(recipient, karma_for)
         karma_for.amount = karma_for.amount+1
@@ -81,6 +86,7 @@ class KarmaFor(models.Model):
 
     @staticmethod
     def decrement(recipient, karma_for):
+        recipient = recipient.lower()
         Karma.decrement(recipient)
         karma_for = KarmaFor.find_or_create_by_recipient_and_for(recipient, karma_for)
         karma_for.amount = karma_for.amount-1

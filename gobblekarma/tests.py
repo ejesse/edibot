@@ -26,14 +26,14 @@ class TestKarma(TestCase):
 
         karma = Karma.increment('testincr1')
         self.assertEqual(karma.amount,1)
-        karma = Karma.increment('testincr1')
+        karma = Karma.increment('teSTinCr1')
         self.assertEqual(karma.amount,2)
 
     def test_decrement(self):
 
         karma = Karma.decrement('testdecr1')
         self.assertEqual(karma.amount,-1)
-        karma = Karma.decrement('testdecr1')
+        karma = Karma.decrement('teSTdecR1')
         self.assertEqual(karma.amount,-2)
 
     def test_to_str(self):
@@ -71,6 +71,10 @@ class TestKarmaFor(TestCase):
         self.assertEqual(karma.amount, 2)
         self.assertEqual(karma_for.amount, 1)
         self.assertEqual(karma_for.karma, karma)
+        karma_for = KarmaFor.increment('testFORincr1', 'some stuff')
+        self.assertEqual(karma_for.karma.amount, 3)
+        self.assertEqual(karma_for.amount, 2)
+        self.assertEqual(karma_for.karma, karma)
 
     def test_increment_autocreates_karma(self):
 
@@ -86,6 +90,10 @@ class TestKarmaFor(TestCase):
         karma.refresh_from_db()
         self.assertEqual(karma.amount, -2)
         self.assertEqual(karma_for.amount, -1)
+        self.assertEqual(karma_for.karma, karma)
+        karma_for = KarmaFor.decrement('testForDecr1', 'some stuff')
+        self.assertEqual(karma_for.karma.amount, -3)
+        self.assertEqual(karma_for.amount, -2)
         self.assertEqual(karma_for.karma, karma)
 
     def test_decrement_autocreates_karma(self):
