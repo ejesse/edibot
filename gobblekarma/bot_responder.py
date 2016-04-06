@@ -41,6 +41,7 @@ def get_top_ten(message):
         tops.append("%s. %s\n" % (i, str(karma)))
         i = i+1
     resp = "%s%s" % (resp, "".join(tops))
+    message.respond(resp)
     return resp
 
 
