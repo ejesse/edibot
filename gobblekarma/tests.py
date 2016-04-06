@@ -171,6 +171,13 @@ class TestResponders(TestCase):
         top_ten = get_top_ten(message)
         self.assertTrue(top_ten.startswith("1. toptentest1 has 20 points\n2. toptentest2 has 15 points\n3. toptentest3 has 10 points\n"))
 
+    def test_top_ten_does_not_respond_to_specific(self):
+
+        message = Message()
+        message.text = "karma foobar"
+        self.assertIsNone(get_top_ten(message))
+
+
     def test_get_karma_for(self):
 
         KarmaFor.increment("testkarmaforintrospec1", "stuff1")

@@ -34,7 +34,7 @@ def downvote(message, recipient):
 
 @gobble_listen("karma")
 def get_top_ten(message):
-    if len(message) > 5:
+    if len(message.text) > 5:
         return
     resp  = ""
     tops = []
